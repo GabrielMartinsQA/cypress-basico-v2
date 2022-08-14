@@ -144,12 +144,25 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         })
     })
 
-    it.only('Validar upload de arquivo pelo Alias do arquivo', function(){
+    it('Validar upload de arquivo pelo Alias do arquivo', function(){
         cy.fixture('teste.JPEG').as('testeFile')
         cy.get('input[type="file"]#file-upload')
         .selectFile('@testeFile')
         .should(function($input){
           expect($input[0].files[0].name).to.equal('teste.JPEG')
         })
+    })
+
+    it('Validar abertura da política de privacidade', function(){
+        cy.get('#privacy a').should('have.attr', 'target', '_blank')
+    })
+
+    it.only('Validar abertura de uma nova aba clicando em um link', function(){
+        cy.get('#privacy a')
+          .invoke('removeAttr', 'target')
+          .click()
+        
+        cy.title('CAC TAT - Política de privacidade')
+        cy.contains('Talking About Testing').should('be.visible')
     })
 })
