@@ -127,4 +127,29 @@ describe('Central de Atendimento ao Cliente TAT', function(){
 
         cy.get('.error').should('be.visible')
     })
+
+    it('Validar upload de arquivo', function(){
+        cy.get('input[type="file"]#file-upload')
+          .selectFile('./cypress/fixtures/teste.JPEG')
+          .should(function($input){
+            expect($input[0].files[0].name).to.equal('teste.JPEG')
+          })
+    })
+
+    it('Validar upload de arquivo com drag and drop', function(){
+        cy.get('input[type="file"]#file-upload')
+        .selectFile('./cypress/fixtures/teste.JPEG', {action: 'drag-drop'})
+        .should(function($input){
+          expect($input[0].files[0].name).to.equal('teste.JPEG')
+        })
+    })
+
+    it.only('Validar upload de arquivo pelo Alias do arquivo', function(){
+        cy.fixture('teste.JPEG').as('testeFile')
+        cy.get('input[type="file"]#file-upload')
+        .selectFile('@testeFile')
+        .should(function($input){
+          expect($input[0].files[0].name).to.equal('teste.JPEG')
+        })
+    })
 })
