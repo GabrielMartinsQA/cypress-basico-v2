@@ -5,7 +5,8 @@
   "main": "src/index.html",
   "scripts": {
     "cy.open": "cypress open",
-    "test": "cypress run"
+    "cy.open.mobile": "cypress open --config viewPortWidth=410 viewPortHeight=860",
+    "cy.test": "cypress run"
   },
   "repository": {
     "type": "git",
