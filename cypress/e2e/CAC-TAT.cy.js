@@ -10,6 +10,9 @@ describe('Central de Atendimento ao Cliente TAT', function(){
     })
 
     it('Validar preenchimento dos campos obrigatórios e envio do formulário', function(){
+
+        cy.clock()
+        
         cy.get('#firstName').type('Gabriel')
         cy.get('#lastName').type('Martins')
         cy.get('#email').type('gabriel@yopmail.com')
@@ -17,6 +20,10 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         cy.get('button[type="submit"]').click()
 
         cy.get('.success').should('be.visible')
+
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
+
     })
 
     it('Validar exibição da mensagem de erro para email com formato inválido', function(){
@@ -164,5 +171,22 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         
         cy.title('CAC TAT - Política de privacidade')
         cy.contains('Talking About Testing').should('be.visible')
+    })
+
+    it.only("Validar ocultação e exibição de mensagens de sucesso", function(){
+      cy.get('.success')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and ('contain', 'Mensagem enviada com sucesso.')
+        .invoke('hide')
+        .should('not.be.visible')
+      cy.get('.error')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and ('contain', 'Valide os campos obrigatórios!')
+        .invoke('hide')
+        .should('not.be.visible')
     })
 })
