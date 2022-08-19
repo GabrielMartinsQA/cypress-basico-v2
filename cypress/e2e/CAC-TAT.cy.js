@@ -173,7 +173,7 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         cy.contains('Talking About Testing').should('be.visible')
     })
 
-    it.only("Validar ocultação e exibição de mensagens de sucesso", function(){
+    it("Validar ocultação e exibição de mensagens de sucesso", function(){
       cy.get('.success')
         .should('not.be.visible')
         .invoke('show')
@@ -186,6 +186,23 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         .invoke('show')
         .should('be.visible')
         .and ('contain', 'Valide os campos obrigatórios!')
+        .invoke('hide')
+        .should('not.be.visible')
+    })
+
+    it("Validar preenchimento de campo usando ctrl V pra incrementar o preenchimento", function() {
+      const longText = Cypress._.repeat('0123456789', 20)
+
+      cy.get('#open-text-area')
+        .invoke('val', longText)
+        .should('have.value', longText)
+    })
+
+    it.only("Validação da exibição do ícone de gato no formulário", function() {
+      cy.get('span[id=cat]')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
         .invoke('hide')
         .should('not.be.visible')
     })
